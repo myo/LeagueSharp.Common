@@ -999,9 +999,9 @@ namespace LeagueSharp.Common
                         || message == WindowsMessages.WM_LBUTTONDOWN && !this.Interacting && this.IsInside(cursorPos))
                     {
                         var val = this.GetValue<SliderButton>();
+                        var oldBoolValue = val.Value.Item2;
                         var t = val.MinSliderValue
                                 + ((cursorPos.X - this.Position.X) * (val.MaxSliderValue - val.MinSliderValue)) / this.Width;
-                        var oldBoolValue = val.Value.Item2;
                         val.Value = new Tuple<int, bool>((int)t, oldBoolValue);
                         this.SetValue(val);
                     }
@@ -1023,7 +1023,11 @@ namespace LeagueSharp.Common
 
                     if (cursorPos.X > this.Position.X + this.Width - this.Height)
                     {
-                        this.SetValue(!this.GetValue<bool>());
+                        var val = this.GetValue<SliderButton>();
+                        var oldSliderValue = val.Value.Item1;
+                        var oldBoolValue = val.Value.Item2;
+                        val.Value = new Tuple<int, bool>(oldSliderValue, !oldBoolValue);
+                        this.SetValue(val);
                     }
                     this.Interacting = message == WindowsMessages.WM_LBUTTONDOWN;
                     break;
