@@ -1,4 +1,4 @@
-﻿namespace LeagueSharp.Common
+namespace LeagueSharp.Common
 {
     using System;
     using System.Collections.Generic;
@@ -984,6 +984,45 @@
                         return;
                     }
 
+                    this.Interacting = message == WindowsMessages.WM_LBUTTONDOWN;
+                    break;
+                case MenuValueType.SliderButton:
+                    if (!this.Visible)
+                    {
+                        this.Interacting = false;
+                        return;
+                    }
+
+                    if (message == WindowsMessages.WM_MOUSEMOVE && this.Interacting
+                        || message == WindowsMessages.WM_LBUTTONDOWN && !this.Interacting && this.IsInside(cursorPos))
+                    {
+                        var val = this.GetValue<SliderButton>();
+                        var t = val.MinSliderValue
+                                + ((cursorPos.X - this.Position.X) * (val.MaxSliderValue - val.MinSliderValue)) / this.Width;
+                        var oldBoolValue = val.Value.Item2;
+                        val.Value = new Tuple<int, bool>((int)t, oldBoolValue);
+                        this.SetValue(val);
+                    }
+
+                    if (message != WindowsMessages.WM_LBUTTONDOWN && message != WindowsMessages.WM_LBUTTONUP)
+                    {
+                        return;
+                    }
+
+                    if (!this.IsInside(cursorPos) && message == WindowsMessages.WM_LBUTTONDOWN)
+                    {
+                        return;
+                    }
+
+                    if (cursorPos.X > this.Position.X + this.Width)
+                    {
+                        break;
+                    }
+
+                    if (cursorPos.X > this.Position.X + this.Width - this.Height)
+                    {
+                        this.SetValue(!this.GetValue<bool>());
+                    }
                     this.Interacting = message == WindowsMessages.WM_LBUTTONDOWN;
                     break;
                 case MenuValueType.Color:
