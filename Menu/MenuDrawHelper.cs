@@ -244,6 +244,32 @@
         }
 
         /// <summary>
+        ///     Draws a SliderButton.
+        /// </summary>
+        /// <param name="position">
+        ///     The position.
+        /// </param>
+        /// <param name="item">
+        ///     The item.
+        /// </param>
+        /// <param name="width">
+        ///     The width.
+        /// </param>
+        /// <param name="drawText">
+        ///     Indicates whether to draw informative text.
+        /// </param>
+        internal static void DrawSliderButton(Vector2 position, MenuItem item, int width = -1, bool drawText = true)
+        {
+            var val = item.GetValue<SliderButton>();
+            DrawSlider(position, item, val.MinSliderValue, val.MaxSliderValue, val.Value.Item1, width, drawText);
+            width = item.Width;
+            var percentage = 100 * (val.Value.Item1 - val.MinSliderValue) / (val.MaxSliderValue - val.MinSliderValue);
+            var x = position.X + 3 + (percentage * (width - 3)) / 100f;
+            var x2D = 3 + (percentage * (width - 3)) / 100;
+            DrawOnOff(val.Value.Item2, new Vector2(x + x2D, position.Y), item);
+        }
+
+        /// <summary>
         ///     Draws a slider.
         /// </summary>
         /// <param name="position">

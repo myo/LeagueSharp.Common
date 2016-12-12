@@ -367,6 +367,8 @@
             {
                 case MenuValueType.Boolean:
                     return this.GetValue<bool>();
+                case MenuValueType.SliderButton:
+                    return this.GetValue<SliderButton>().Value.Item2;
                 case MenuValueType.Circle:
                     return this.GetValue<Circle>().Active;
                 case MenuValueType.KeyBind:
@@ -488,6 +490,10 @@
             {
                 this.ValueType = MenuValueType.Color;
             }
+            else if (newValue.GetType().ToString().Contains("SliderButton"))
+            {
+                this.ValueType = MenuValueType.SliderButton;
+            }
             else
             {
                 Console.WriteLine(@"CommonLibMenu: Data type not supported");
@@ -524,6 +530,15 @@
                                 && savedSliderValue.MaxValue == newSliderValue.MaxValue)
                             {
                                 newValue = (T)(object)savedSliderValue;
+                            }
+
+                            break;
+                        case MenuValueType.SliderButton:
+                            var savedSliderButtonValue = (SliderButton)(object)Utils.Deserialize<T>(readBytes);
+                            var newSliderButtonValue = (SliderButton)(object)newValue;
+                            if (savedSliderButtonValue.Value.Equals(newSliderButtonValue.Value))
+                            {
+                                newValue = (T)(object)savedSliderButtonValue;
                             }
 
                             break;
@@ -709,6 +724,9 @@
 
                 case MenuValueType.Slider:
                     MenuDrawHelper.DrawSlider(this.Position, this);
+                    break;
+                case MenuValueType.SliderButton:
+                    MenuDrawHelper.DrawSliderButton(this.Position, this);
                     break;
 
                 case MenuValueType.KeyBind:

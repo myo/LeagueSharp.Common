@@ -41,6 +41,11 @@
         Circle,
 
         /// <summary>
+        ///     The slider bool type.
+        /// </summary>
+        SliderButton,
+
+        /// <summary>
         ///     The string list type.
         /// </summary>
         StringList
