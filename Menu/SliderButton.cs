@@ -51,7 +51,7 @@ namespace LeagueSharp.Common
         /// <param name="sliderMaxValue">
         ///     The maximum value.
         /// </param>
-        public SliderButton(int sliderValue = 0, bool buttonValue = false, int sliderMinValue = 0, int sliderMaxValue = 100)
+        public SliderButton(int sliderValue = 0, int sliderMinValue = 0, int sliderMaxValue = 100, bool buttonValue = false)
         {
             this.sliderValue = sliderValue;
             this.MaxSliderValue = Math.Max(sliderMaxValue, sliderMinValue);
