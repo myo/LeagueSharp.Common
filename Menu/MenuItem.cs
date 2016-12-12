@@ -462,37 +462,39 @@ namespace LeagueSharp.Common
         public MenuItem SetValue<T>(T newValue)
         {
             this.ValueType = MenuValueType.None;
-            if (newValue.GetType().ToString().Contains("Boolean"))
+            var newValueTypeString = newValue.GetType().ToString();
+
+            if (newValueTypeString.Contains("Boolean"))
             {
                 this.ValueType = MenuValueType.Boolean;
             }
-            else if (newValue.GetType().ToString().Contains("Slider"))
+            else if (newValueTypeString.Contains("SliderButton"))
+            {
+                this.ValueType = MenuValueType.SliderButton;
+            }
+            else if (newValueTypeString.Contains("Slider"))
             {
                 this.ValueType = MenuValueType.Slider;
             }
-            else if (newValue.GetType().ToString().Contains("KeyBind"))
+            else if (newValueTypeString.Contains("KeyBind"))
             {
                 this.ValueType = MenuValueType.KeyBind;
             }
-            else if (newValue.GetType().ToString().Contains("Int"))
+            else if (newValueTypeString.Contains("Int"))
             {
                 this.ValueType = MenuValueType.Integer;
             }
-            else if (newValue.GetType().ToString().Contains("Circle"))
+            else if (newValueTypeString.Contains("Circle"))
             {
                 this.ValueType = MenuValueType.Circle;
             }
-            else if (newValue.GetType().ToString().Contains("StringList"))
+            else if (newValueTypeString.Contains("StringList"))
             {
                 this.ValueType = MenuValueType.StringList;
             }
-            else if (newValue.GetType().ToString().Contains("Color"))
+            else if (newValueTypeString.Contains("Color"))
             {
                 this.ValueType = MenuValueType.Color;
-            }
-            else if (newValue.GetType().ToString().Contains("SliderButton"))
-            {
-                this.ValueType = MenuValueType.SliderButton;
             }
             else
             {
